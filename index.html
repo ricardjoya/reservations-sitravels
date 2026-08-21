@@ -387,7 +387,8 @@
             <button class="tipo-btn" onclick="setTipo('tour',this)">🌴 Tour</button>
           </div>
         </div>
-        <div id="form-llegada-salida" class="form-grid">
+        <!-- LLEGADA -->
+        <div id="form-llegada" class="form-grid">
           <div class="form-group"><label>Proveedor</label><input type="text" id="f-proveedor" placeholder="Proveedor" list="lista-proveedores"><datalist id="lista-proveedores"></datalist></div>
           <div class="form-group"><label>Vuelo</label><input type="text" id="f-vuelo" placeholder="AA 1881"></div>
           <div class="form-group"><label>Fecha</label><input type="date" id="f-fecha"></div>
@@ -398,30 +399,48 @@
           <div class="form-group"><label>Cobro</label><input type="text" id="f-cobro" placeholder="150 USD / N/A"></div>
           <div class="form-group full"><label>Observaciones</label><textarea id="f-notas" placeholder="Notas..."></textarea></div>
         </div>
+        <!-- SALIDA -->
+        <div id="form-salida" class="form-grid" style="display:none;">
+          <div class="form-group"><label>Proveedor</label><input type="text" id="s-proveedor" placeholder="Proveedor" list="lista-proveedores"></div>
+          <div class="form-group"><label>Vuelo</label><input type="text" id="s-vuelo" placeholder="AA 1881"></div>
+          <div class="form-group"><label>Fecha</label><input type="date" id="s-fecha"></div>
+          <div class="form-group"><label>Hora Pick Up</label><input type="time" id="s-hora"></div>
+          <div class="form-group"><label>Pick Up</label><input type="text" id="s-destino" placeholder="Villa Tita..." list="lista-destinos"></div>
+          <div class="form-group"><label>Pax</label><input type="number" id="s-pax" min="1" max="50" placeholder="2"></div>
+          <div class="form-group"><label>Pasajero</label><input type="text" id="s-pasajero" placeholder="Nombre del cliente"></div>
+          <div class="form-group"><label>Cobro</label><input type="text" id="s-cobro" placeholder="150 USD / N/A"></div>
+          <div class="form-group full"><label>Observaciones</label><textarea id="s-notas" placeholder="Notas..."></textarea></div>
+        </div>
+        <!-- TRASLADO -->
         <div id="form-traslado" class="form-grid" style="display:none;">
           <div class="form-group"><label>Proveedor</label><input type="text" id="t-proveedor" list="lista-proveedores"></div>
           <div class="form-group"><label>Fecha</label><input type="date" id="t-fecha"></div>
           <div class="form-group"><label>Hora Pick Up</label><input type="time" id="t-hora"></div>
+          <div class="form-group"><label>Pick Up</label><input type="text" id="t-pickup" list="lista-destinos"></div>
           <div class="form-group"><label>Destino</label><input type="text" id="t-destino" list="lista-destinos"></div>
           <div class="form-group"><label>Pax</label><input type="number" id="t-pax" min="1" max="50"></div>
           <div class="form-group"><label>Pasajero</label><input type="text" id="t-pasajero"></div>
           <div class="form-group"><label>Cobro</label><input type="text" id="t-cobro"></div>
           <div class="form-group full"><label>Observaciones</label><textarea id="t-notas"></textarea></div>
         </div>
+        <!-- X HORA -->
         <div id="form-hora" class="form-grid" style="display:none;">
           <div class="form-group"><label>Proveedor</label><input type="text" id="h-proveedor" list="lista-proveedores"></div>
           <div class="form-group"><label>Fecha</label><input type="date" id="h-fecha"></div>
           <div class="form-group"><label>Hora Pick Up</label><input type="time" id="h-hora"></div>
+          <div class="form-group"><label>Pick Up</label><input type="text" id="h-pickup" list="lista-destinos"></div>
           <div class="form-group"><label>Cantidad Horas</label><input type="number" id="h-horas" min="1" max="24"></div>
           <div class="form-group"><label>Pax</label><input type="number" id="h-pax" min="1" max="50"></div>
           <div class="form-group"><label>Pasajero</label><input type="text" id="h-pasajero"></div>
           <div class="form-group"><label>Cobro</label><input type="text" id="h-cobro"></div>
           <div class="form-group full"><label>Observaciones</label><textarea id="h-notas"></textarea></div>
         </div>
+        <!-- TOUR -->
         <div id="form-tour" class="form-grid" style="display:none;">
           <div class="form-group"><label>Proveedor</label><input type="text" id="to-proveedor" list="lista-proveedores"></div>
           <div class="form-group"><label>Fecha</label><input type="date" id="to-fecha"></div>
           <div class="form-group"><label>Hora Pick Up</label><input type="time" id="to-hora"></div>
+          <div class="form-group"><label>Pick Up</label><input type="text" id="to-pickup" list="lista-destinos"></div>
           <div class="form-group"><label>Tour</label><input type="text" id="to-tour" placeholder="City Tour..."></div>
           <div class="form-group"><label>Pax</label><input type="number" id="to-pax" min="1" max="50"></div>
           <div class="form-group"><label>Pasajero</label><input type="text" id="to-pasajero"></div>
@@ -632,7 +651,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbwI9pXXGeAFzRSV4BlM4jQ7yOzz5jMxVpSnckfMi1Ta0coz02f_hFiUpxHIKkMBTKXyjA/exec';
+const API = 'https://script.google.com/macros/s/AKfycbzYhWALoLLitz8_BdW9KsVa93-wlYVlVE3mmzYAvpiKdDiz_VuSPT4VeszuN5EUixe5mg/exec';
 
 // ESTADO
 let reservaciones = [];
@@ -775,22 +794,47 @@ function setTipo(tipo, btn) {
   tipoActual = tipo;
   document.querySelectorAll('.tipo-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  ['form-llegada-salida','form-traslado','form-hora','form-tour'].forEach(id => document.getElementById(id).style.display='none');
-  const map = { llegada:'form-llegada-salida', salida:'form-llegada-salida', traslado:'form-traslado', hora:'form-hora', tour:'form-tour' };
+  ['form-llegada','form-salida','form-traslado','form-hora','form-tour'].forEach(id => document.getElementById(id).style.display='none');
+  const map = { llegada:'form-llegada', salida:'form-salida', traslado:'form-traslado', hora:'form-hora', tour:'form-tour' };
   document.getElementById(map[tipo]).style.display='grid';
 }
 
 // GUARDAR RESERVACIÓN
 async function guardarReservacion() {
   let r = { tipo:tipoActual, id:Date.now(), action:'save' };
-  const prefixes = { llegada:'f', salida:'f', traslado:'t', hora:'h', tour:'to' };
-  const p = prefixes[tipoActual];
-  r.proveedor=v(`${p}-proveedor`); r.fecha=v(`${p}-fecha`); r.hora=v(`${p}-hora`);
-  r.destino=v(`${p}-destino`)||''; r.pax=v(`${p}-pax`)||'';
-  r.pasajero=v(`${p}-pasajero`); r.cobro=v(`${p}-cobro`)||''; r.notas=v(`${p}-notas`)||'';
-  if (tipoActual==='llegada'||tipoActual==='salida') r.vuelo=v('f-vuelo');
-  if (tipoActual==='hora') r.horas=v('h-horas');
-  if (tipoActual==='tour') r.tour=v('to-tour');
+
+  if (tipoActual === 'llegada') {
+    r.proveedor=v('f-proveedor'); r.vuelo=v('f-vuelo');
+    r.fecha=v('f-fecha'); r.hora=v('f-hora');
+    r.pickup='Aeropuerto'; r.destino=v('f-destino');
+    r.pax=v('f-pax'); r.pasajero=v('f-pasajero');
+    r.cobro=v('f-cobro'); r.notas=v('f-notas');
+  } else if (tipoActual === 'salida') {
+    r.proveedor=v('s-proveedor'); r.vuelo=v('s-vuelo');
+    r.fecha=v('s-fecha'); r.hora=v('s-hora');
+    r.pickup=v('s-destino'); r.destino='Aeropuerto';
+    r.pax=v('s-pax'); r.pasajero=v('s-pasajero');
+    r.cobro=v('s-cobro'); r.notas=v('s-notas');
+  } else if (tipoActual === 'traslado') {
+    r.proveedor=v('t-proveedor');
+    r.fecha=v('t-fecha'); r.hora=v('t-hora');
+    r.pickup=v('t-pickup'); r.destino=v('t-destino');
+    r.pax=v('t-pax'); r.pasajero=v('t-pasajero');
+    r.cobro=v('t-cobro'); r.notas=v('t-notas');
+  } else if (tipoActual === 'hora') {
+    r.proveedor=v('h-proveedor');
+    r.fecha=v('h-fecha'); r.hora=v('h-hora');
+    r.pickup=v('h-pickup'); r.horas=v('h-horas');
+    r.pax=v('h-pax'); r.pasajero=v('h-pasajero');
+    r.cobro=v('h-cobro'); r.notas=v('h-notas');
+  } else if (tipoActual === 'tour') {
+    r.proveedor=v('to-proveedor');
+    r.fecha=v('to-fecha'); r.hora=v('to-hora');
+    r.pickup=v('to-pickup'); r.tour=v('to-tour');
+    r.pax=v('to-pax'); r.pasajero=v('to-pasajero');
+    r.cobro=v('to-cobro'); r.notas=v('to-notas');
+  }
+
   if (!r.fecha||!r.hora||!r.pasajero) { toast('⚠️ Completa fecha, hora y pasajero'); return; }
   showLoader(true,'Guardando reservación...');
   try {
@@ -919,23 +963,23 @@ function renderOperacion() {
     // Lógica de Pick Up y Destino según tipo de servicio
     let pickUp, destino;
     if(r.tipo==='llegada'){
-      pickUp='✈️ Aeropuerto';
-      destino=r.destino||'—';
+      pickUp = r.pickup || '✈️ Aeropuerto';
+      destino = r.destino||'—';
     } else if(r.tipo==='salida'){
-      pickUp=r.destino||'—';
-      destino='✈️ Aeropuerto';
+      pickUp = r.pickup || r.destino || '—';
+      destino = r.destino==='Aeropuerto' ? '✈️ Aeropuerto' : (r.destino||'✈️ Aeropuerto');
     } else if(r.tipo==='traslado'){
-      pickUp=r.destino||'—';
-      destino=r.destino||'—';
+      pickUp = r.pickup || '—';
+      destino = r.destino || '—';
     } else if(r.tipo==='hora'){
-      pickUp=r.destino||'—';
-      destino=r.horas?(r.horas+' hora'+(r.horas>1?'s':'')):'—';
+      pickUp = r.pickup || r.destino || '—';
+      destino = r.horas?(r.horas+' hora'+(r.horas>1?'s':'')):'—';
     } else if(r.tipo==='tour'){
-      pickUp=r.destino||'—';
-      destino=r.tour||'—';
+      pickUp = r.pickup || r.destino || '—';
+      destino = r.tour||'—';
     } else {
-      pickUp=r.destino||'—';
-      destino=r.destino||'—';
+      pickUp = r.pickup || r.destino || '—';
+      destino = r.destino || '—';
     }
 
     const choferCell=canAsignar?`<select onchange="asignar('${r.id}','chofer',this.value)">${optsChofer}</select>`:asig.chofer||'—';
