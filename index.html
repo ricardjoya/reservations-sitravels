@@ -456,7 +456,14 @@
       <div style="margin-top:24px;">
         <div class="section-title">Reservaciones Guardadas</div>
         <div class="filtros">
-          <input type="date" id="filtro-fecha" onchange="renderTabla()">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <label style="font-size:0.82rem;font-weight:600;color:var(--gris-texto);">Desde</label>
+            <input type="date" id="filtro-fecha-desde" onchange="renderTabla()">
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <label style="font-size:0.82rem;font-weight:600;color:var(--gris-texto);">Hasta</label>
+            <input type="date" id="filtro-fecha-hasta" onchange="renderTabla()">
+          </div>
           <select id="filtro-tipo" onchange="renderTabla()">
             <option value="">Todos los tipos</option>
             <option value="llegada">Llegada</option>
@@ -465,7 +472,7 @@
             <option value="hora">x Hora</option>
             <option value="tour">Tour</option>
           </select>
-          <button class="btn btn-secondary" onclick="document.getElementById('filtro-fecha').value='';document.getElementById('filtro-tipo').value='';renderTabla()">Limpiar</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('filtro-fecha-desde').value='';document.getElementById('filtro-fecha-hasta').value='';document.getElementById('filtro-tipo').value='';renderTabla()">Limpiar</button>
         </div>
         <div class="tabla-wrapper">
           <table>
@@ -854,11 +861,13 @@ function limpiarForm() {
 
 // TABLA RESERVACIONES
 function renderTabla() {
-  const filtFecha = document.getElementById('filtro-fecha').value;
+  const filtDesde = document.getElementById('filtro-fecha-desde').value;
+  const filtHasta = document.getElementById('filtro-fecha-hasta').value;
   const filtTipo = document.getElementById('filtro-tipo').value;
   const canEdit = ['admin','operador'].includes(sesion?.rol);
   let datos = reservaciones.filter(r => {
-    if (filtFecha && r.fecha!==filtFecha) return false;
+    if (filtDesde && r.fecha < filtDesde) return false;
+    if (filtHasta && r.fecha > filtHasta) return false;
     if (filtTipo && r.tipo!==filtTipo) return false;
     return true;
   }).sort((a,b)=>(a.fecha+a.hora)>(b.fecha+b.hora)?1:-1);
