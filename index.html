@@ -53,7 +53,6 @@
     text-align: center;
   }
   .login-logo { margin-bottom: 4px; }
-  .login-logo img { height: 220px; object-fit: contain; width: 100%; }
   .login-sub { font-size: 0.85rem; color: var(--gris-texto); margin-bottom: 32px; }
   .login-field { margin-bottom: 18px; text-align: left; }
   .login-field label { font-size: 0.82rem; font-weight: 700; color: var(--gris-texto); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 7px; }
@@ -331,7 +330,7 @@
 <!-- LOGIN -->
 <div class="login-screen" id="login-screen">
   <div class="login-box">
-    <div class="login-logo"><img src="https://sitravels.mx/assets/Logotipos-Si-travels.jpg" alt="Si!travels"></div>
+    <div class="login-logo" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 0 4px;"><svg width="96" height="96" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Si!travels"><path d="M32 3C18.7 3 8 13.4 8 26.4c0 7 3.2 12.1 8.3 17.1L32 61l15.7-17.5C52.8 38.5 56 33.4 56 26.4 56 13.4 45.3 3 32 3z" fill="#636530"/><g fill="#ffffff"><path d="M30.6 22h2.8l.9 22h-4.6z"/><path d="M32 22c-2-4.6-6.4-7.3-11.6-6.6 3.6.8 6.2 3.2 7.6 6.6z"/><path d="M32 22c2-4.6 6.4-7.3 11.6-6.6-3.6.8-6.2 3.2-7.6 6.6z"/><path d="M32 22c-5-.2-9.4 2.2-11.8 6.6 3.8-2.2 8-3 11.8-2.2z"/><path d="M32 22c5-.2 9.4 2.2 11.8 6.6-3.8-2.2-8-3-11.8-2.2z"/></g></svg><div style="font-size:2.1rem;font-weight:900;letter-spacing:.5px;line-height:1;"><span style="color:#636530;">Sí</span><span style="color:#f29100;">!</span><span style="color:#f29100;">travels</span></div><div style="font-size:.7rem;letter-spacing:3px;color:#636530;font-weight:700;">DMC &amp; TOURS</div></div>
     <div class="login-sub">Sistema Interno de Reservaciones</div>
     <div class="login-field">
       <label>Usuario</label>
@@ -351,7 +350,7 @@
 
   <header>
     <div class="logo-link" onclick="irAReservaciones()">
-      <img src="https://sitravels.mx/assets/Logotipos-Si-travels.jpg" alt="Si!travels" style="height:65px;object-fit:contain;background:white;padding:5px 12px;border-radius:8px;">
+      <div style="display:flex;align-items:center;gap:10px;"><div style="background:white;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;"><svg width="38" height="38" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Si!travels"><path d="M32 3C18.7 3 8 13.4 8 26.4c0 7 3.2 12.1 8.3 17.1L32 61l15.7-17.5C52.8 38.5 56 33.4 56 26.4 56 13.4 45.3 3 32 3z" fill="#636530"/><g fill="#ffffff"><path d="M30.6 22h2.8l.9 22h-4.6z"/><path d="M32 22c-2-4.6-6.4-7.3-11.6-6.6 3.6.8 6.2 3.2 7.6 6.6z"/><path d="M32 22c2-4.6 6.4-7.3 11.6-6.6-3.6.8-6.2 3.2-7.6 6.6z"/><path d="M32 22c-5-.2-9.4 2.2-11.8 6.6 3.8-2.2 8-3 11.8-2.2z"/><path d="M32 22c5-.2 9.4 2.2 11.8 6.6-3.8-2.2-8-3-11.8-2.2z"/></g></svg></div><div style="font-size:1.5rem;font-weight:900;letter-spacing:.5px;line-height:1;"><span style="color:#fff;">Sí</span><span style="color:#f2a900;">!travels</span></div></div>
     </div>
     <div class="header-right">
       <span class="user-badge" id="header-nombre">—</span>
@@ -464,6 +463,7 @@
             <label style="font-size:0.82rem;font-weight:600;color:var(--gris-texto);">Hasta</label>
             <input type="date" id="filtro-fecha-hasta" onchange="renderTabla()">
           </div>
+          <input type="text" id="filtro-proveedor" list="lista-proveedores" placeholder="Proveedor..." oninput="renderTabla()" style="min-width:160px;">
           <select id="filtro-tipo" onchange="renderTabla()">
             <option value="">Todos los tipos</option>
             <option value="llegada">Llegada</option>
@@ -472,7 +472,7 @@
             <option value="hora">x Hora</option>
             <option value="tour">Tour</option>
           </select>
-          <button class="btn btn-secondary" onclick="document.getElementById('filtro-fecha-desde').value='';document.getElementById('filtro-fecha-hasta').value='';document.getElementById('filtro-tipo').value='';renderTabla()">Limpiar</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('filtro-fecha-desde').value='';document.getElementById('filtro-fecha-hasta').value='';document.getElementById('filtro-tipo').value='';document.getElementById('filtro-proveedor').value='';renderTabla()">Limpiar</button>
         </div>
         <div class="tabla-wrapper">
           <table>
@@ -502,7 +502,7 @@
       <div class="print-header">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:3px solid #3a5a2a;padding-bottom:10px;">
           <div style="display:flex;align-items:center;gap:14px;">
-            <img src="https://sitravels.mx/assets/Logotipos-Si-travels.jpg" alt="Si!travels" style="height:55px;object-fit:contain;">
+            <div style="display:flex;align-items:center;gap:8px;"><svg width="44" height="44" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Si!travels"><path d="M32 3C18.7 3 8 13.4 8 26.4c0 7 3.2 12.1 8.3 17.1L32 61l15.7-17.5C52.8 38.5 56 33.4 56 26.4 56 13.4 45.3 3 32 3z" fill="#636530"/><g fill="#ffffff"><path d="M30.6 22h2.8l.9 22h-4.6z"/><path d="M32 22c-2-4.6-6.4-7.3-11.6-6.6 3.6.8 6.2 3.2 7.6 6.6z"/><path d="M32 22c2-4.6 6.4-7.3 11.6-6.6-3.6.8-6.2 3.2-7.6 6.6z"/><path d="M32 22c-5-.2-9.4 2.2-11.8 6.6 3.8-2.2 8-3 11.8-2.2z"/><path d="M32 22c5-.2 9.4 2.2 11.8 6.6-3.8-2.2-8-3-11.8-2.2z"/></g></svg><div style="font-size:1.5rem;font-weight:900;line-height:1;"><span style="color:#636530;">Sí</span><span style="color:#f29100;">!travels</span></div></div>
             <div style="font-size:1.1rem;font-weight:800;color:#3a5a2a;">Operación del Día</div>
           </div>
           <div style="text-align:right;">
@@ -514,7 +514,7 @@
         <table class="op-tabla">
           <thead><tr>
             <th>Servicio</th><th>Proveedor</th><th>Pick Up / Hora</th><th>Destino</th>
-            <th>Pax</th><th>Pasajero</th><th>Chofer</th><th>Unidad</th><th>Cobro</th>
+            <th>Pax</th><th>Pasajero</th><th>Chofer</th><th>Unidad</th><th>Cobro</th><th>Obs.</th>
           </tr></thead>
           <tbody id="tbody-operacion">
             <tr><td colspan="10"><div class="empty-state"><div class="icon">🗓️</div><p>Selecciona una fecha.</p></div></td></tr>
@@ -864,11 +864,13 @@ function renderTabla() {
   const filtDesde = document.getElementById('filtro-fecha-desde').value;
   const filtHasta = document.getElementById('filtro-fecha-hasta').value;
   const filtTipo = document.getElementById('filtro-tipo').value;
+  const filtProv = (document.getElementById('filtro-proveedor').value||'').trim().toLowerCase();
   const canEdit = ['admin','operador'].includes(sesion?.rol);
   let datos = reservaciones.filter(r => {
     if (filtDesde && r.fecha < filtDesde) return false;
     if (filtHasta && r.fecha > filtHasta) return false;
     if (filtTipo && r.tipo!==filtTipo) return false;
+    if (filtProv && !(r.proveedor||'').toLowerCase().includes(filtProv)) return false;
     return true;
   }).sort((a,b)=>(a.fecha+a.hora)>(b.fecha+b.hora)?1:-1);
 
@@ -915,7 +917,9 @@ function editarReservacion(id) {
     {id:'e-fecha',label:'Fecha',type:'date',val:r.fecha||''},
     {id:'e-hora',label:'Hora',type:'time',val:r.hora||''},
     {id:'e-vuelo',label:'Vuelo/Tour',type:'text',val:r.vuelo||r.tour||''},
+    {id:'e-pickup',label:'Pick Up',type:'text',val:(r.pickup||r['pick up']||'')},
     {id:'e-destino',label:'Destino',type:'text',val:r.destino||''},
+    {id:'e-horas',label:'Horas (solo x Hora)',type:'number',val:r.horas||''},
     {id:'e-pax',label:'Pax',type:'number',val:r.pax||''},
     {id:'e-pasajero',label:'Pasajero',type:'text',val:r.pasajero||''},
     {id:'e-cobro',label:'Cobro',type:'text',val:r.cobro||''},
@@ -938,7 +942,9 @@ async function guardarEdicion() {
     fecha:document.getElementById('e-fecha').value,
     hora:document.getElementById('e-hora').value,
     vuelo:tipo==='tour'?'':vt, tour:tipo==='tour'?vt:'',
+    pickup:document.getElementById('e-pickup').value,
     destino:document.getElementById('e-destino').value,
+    horas:document.getElementById('e-horas').value,
     pax:document.getElementById('e-pax').value,
     pasajero:document.getElementById('e-pasajero').value,
     cobro:document.getElementById('e-cobro').value,
@@ -954,12 +960,15 @@ function renderOperacion() {
   const fecha=document.getElementById('op-fecha').value;
   if(!fecha) return;
   const canAsignar=['admin','operador'].includes(sesion?.rol);
-  const del_dia=reservaciones.filter(r=>r.fecha===fecha).sort((a,b)=>a.hora>b.hora?1:-1);
+  const del_dia=reservaciones.filter(r=>r.fecha===fecha).sort((a,b)=>{
+    const ha = a.hora||'00:00'; const hb = b.hora||'00:00';
+    return ha > hb ? 1 : ha < hb ? -1 : 0;
+  });
   document.getElementById('op-count').textContent=del_dia.length+' servicio'+(del_dia.length!==1?'s':'');
   document.getElementById('print-fecha').textContent='Fecha: '+formatFecha(fecha);
   const tbody=document.getElementById('tbody-operacion');
   if(!del_dia.length){
-    tbody.innerHTML='<tr><td colspan="10"><div class="empty-state"><div class="icon">🗓️</div><p>No hay servicios para esta fecha.</p></div></td></tr>';
+    tbody.innerHTML='<tr><td colspan="11"><div class="empty-state"><div class="icon">🗓️</div><p>No hay servicios para esta fecha.</p></div></td></tr>';
     return;
   }
   const optsChofer=['— Asignar —',...choferes].map(c=>`<option value="${c}">${c}</option>`).join('');
@@ -973,11 +982,11 @@ function renderOperacion() {
     let pickUp, destino;
     const pickupVal = r.pickup || r['pick up'] || '';
     if(r.tipo==='llegada'){
-      pickUp = pickupVal || '✈️ Aeropuerto';
+      pickUp = pickupVal || 'Aeropuerto';
       destino = r.destino||'—';
     } else if(r.tipo==='salida'){
       pickUp = pickupVal || r.destino || '—';
-      destino = r.destino==='Aeropuerto' ? '✈️ Aeropuerto' : (r.destino||'✈️ Aeropuerto');
+      destino = 'Aeropuerto';
     } else if(r.tipo==='traslado'){
       pickUp = pickupVal || '—';
       destino = r.destino || '—';
@@ -1002,6 +1011,7 @@ function renderOperacion() {
       <td>${r.pax||'—'}</td><td>${r.pasajero||'—'}</td>
       <td>${choferCell}</td><td>${unidadCell}</td>
       <td>${r.cobro||'—'}</td>
+      <td>${r.notas||'—'}</td>
     </tr>`;
   }).join('');
   if(canAsignar){
