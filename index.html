@@ -872,7 +872,10 @@ function renderTabla() {
     if (filtTipo && r.tipo!==filtTipo) return false;
     if (filtProv && !(r.proveedor||'').toLowerCase().includes(filtProv)) return false;
     return true;
-  }).sort((a,b)=>(a.fecha+a.hora)>(b.fecha+b.hora)?1:-1);
+  }).sort((a,b)=>{
+    if(a.fecha!==b.fecha) return a.fecha>b.fecha?1:-1;
+    return horaMin(a.hora)-horaMin(b.hora);
+  });
 
   const tbody = document.getElementById('tbody-reservaciones');
   if (!datos.length) {
@@ -960,10 +963,7 @@ function renderOperacion() {
   const fecha=document.getElementById('op-fecha').value;
   if(!fecha) return;
   const canAsignar=['admin','operador'].includes(sesion?.rol);
-  const del_dia=reservaciones.filter(r=>r.fecha===fecha).sort((a,b)=>{
-    const ha = a.hora||'00:00'; const hb = b.hora||'00:00';
-    return ha > hb ? 1 : ha < hb ? -1 : 0;
-  });
+  const del_dia=reservaciones.filter(r=>r.fecha===fecha).sort((a,b)=>horaMin(a.hora)-horaMin(b.hora));
   document.getElementById('op-count').textContent=del_dia.length+' servicio'+(del_dia.length!==1?'s':'');
   document.getElementById('print-fecha').textContent='Fecha: '+formatFecha(fecha);
   const tbody=document.getElementById('tbody-operacion');
@@ -1036,6 +1036,16 @@ function exportarOperacion(){
   const fecha=document.getElementById('op-fecha').value;
   document.getElementById('print-fecha').textContent='Operación: '+formatFecha(fecha);
   setTimeout(()=>window.print(), 200);
+}
+
+function horaMin(h){
+  if(!h) return 0;
+  const m=String(h).match(/(\d{1,2}):(\d{2})/);
+  if(!m) return 0;
+  let hh=parseInt(m[1],10), mm=parseInt(m[2],10);
+  if(/pm/i.test(h)&&hh<12) hh+=12;
+  if(/am/i.test(h)&&hh===12) hh=0;
+  return hh*60+mm;
 }
 
 function formatHora(hora) {
